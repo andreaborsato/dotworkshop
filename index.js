@@ -47,14 +47,18 @@ io.on("connection", (socket) => {
 
   socket.on("ruination", (data) => {
     console.log(data);
-
-    socket.emit("bio-destruction", data);
+    let clientName = Object.keys(clients)[1] || Object.keys(clients)[1];
+    console.log(clientName);
+    const firstItemValue = clients[clientName];
+    console.log(firstItemValue);
+    io.to(firstItemValue).emit("bio-destruction", data);
+    //socket.emit("bio-destruction", data);
+    //console.log("bio-destruction");
   });
   // socket.on("transfer-num", (data) => {
   //   console.log(data);
   // });
 
-  //  let clientName = Object.keys(clients)[0] || Object.keys(clients)[0];
   //  // Access the value of the first key
   //  const firstItemValue = clients[clientName];
   //  //console.log(firstItemValue);
