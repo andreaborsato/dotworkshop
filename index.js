@@ -45,8 +45,8 @@ io.on("connection", (socket) => {
   clients[customId] = socket.id; // Store the custom ID and socket ID
   console.log(clients);
 
-  socket.on("transfer-audio", (data) => {
-    //console.log(data);
+  socket.on("ruination", (data) => {
+    console.log(data);
   });
   socket.on("transfer-num", (data) => {
     console.log(data);
