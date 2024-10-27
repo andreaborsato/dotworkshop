@@ -62,7 +62,7 @@ function setup() {
   // create an array of RGB colors
   rgbArray();
 
-  setInterval(sendServer, 1000);
+  //setInterval(sendServer, 1000);
 }
 
 function draw() {
@@ -78,6 +78,8 @@ function draw() {
   peopleNum = poses.length;
   degrad = peopleNum;
   console.log(degrad);
+
+  sendServer();
 }
 
 function drawGrid(pixelsoff) {
@@ -125,7 +127,7 @@ function drawKeypoints() {
           let keyPointA = pose.keypoints[a];
           let keyPointB = pose.keypoints[b];
 
-          if (keyPointA.confidence > 0.2 && keyPointB.confidence > 0.2) {
+          if (keyPointA.confidence > 0.1 && keyPointB.confidence > 0.2) {
             stroke(R, G, B);
             strokeWeight(8);
             line(keyPointA.x, keyPointA.y, keyPointB.x, keyPointB.y);
