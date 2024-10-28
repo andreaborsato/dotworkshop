@@ -26,19 +26,19 @@
       // let degrad = 0;
   
 
-  // HOME WIFI
-    var socket = io.connect("http://192.168.0.158:3000", {
-      query: {
-        customId: customId,
-      },
-    });
+  // // HOME WIFI
+  //   var socket = io.connect("http://192.168.0.158:3000", {
+  //     query: {
+  //       customId: customId,
+  //     },
+  //   });
 
     //MOBILE HOTSPOT
-      // var socket = io.connect("http://172.20.10.2:3000", {
-      //   query: {
-      //     customId: customId,
-      //   },
-      // });
+      var socket = io.connect("http://172.20.10.2:3000", {
+        query: {
+          customId: customId,
+        },
+      });
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "m" || event.key === "M") {

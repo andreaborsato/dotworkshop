@@ -63,6 +63,10 @@ function setup() {
   rgbArray();
 
   //setInterval(sendServer, 1000);
+  setInterval(() => {
+    console.log("sending to server");
+    socket.emit("ruination", degrad);
+  }, 1000);
 }
 
 function draw() {
@@ -77,15 +81,15 @@ function draw() {
   drawGrid(pixelsoff);
   peopleNum = poses.length;
   degrad = peopleNum;
-  console.log(degrad);
+  //console.log(degrad);
 
-  sendServer();
+  //sendServer();
 }
 
 function drawGrid(pixelsoff) {
   //image(video, 0, 0, myWidth, myHeight);
 
-  console.log("pixels off: " + pixelsoff);
+  //console.log("pixels off: " + pixelsoff);
   for (let a = 0; a < pixelsoff; a++) {
     let pix = random(pixelCoord);
     noStroke();
@@ -154,10 +158,12 @@ function rgbArray() {
   }
 }
 
-function sendServer() {
-  console.log("sending to server");
-  socket.emit("ruination", degrad);
-}
+// function sendServer() {
+//   setInterval(() => {
+//     console.log("sending to server");
+//     socket.emit("ruination", degrad);
+//   }, 1000);
+// }
 
 function keyPressed() {
   if (key === "h") {
