@@ -1,3 +1,8 @@
+let cnv;
+let counter = 0;
+let humanActivity;
+let myCol;
+
 // image degradation variables
 let cellSize = 12;
 let video;
@@ -19,15 +24,16 @@ let COLORS = [];
 let showSkeleton = false;
 
 // canvas/image size
-let myWidth = 1024 / 1.5;
-let myHeight = 768 / 1.5;
+let myWidth = 1024 / 1.2;
+let myHeight = 768 / 1.2;
 
 function preload() {
   myBodyPose = ml5.bodyPose("MoveNet", { flipped: true });
 }
 
 function setup() {
-  createCanvas(myWidth, myHeight);
+  cnv = createCanvas(myWidth, myHeight);
+  cnv.position(windowWidth / 2 - myWidth / 2, windowHeight / 2 - myHeight / 2);
   video = createCapture(VIDEO, { flipped: true });
   video.size(myWidth, myHeight);
   video.hide();
@@ -36,9 +42,9 @@ function setup() {
   connections = myBodyPose.getSkeleton();
   console.log(connections);
 
-  slider = createSlider(0, 255, 0);
-  slider.position(0, 10);
-  slider.size(80);
+  // slider = createSlider(0, 255, 0);
+  // slider.position(0, 10);
+  // slider.size(80);
 
   // define the rows an columns
   rows = myWidth / cellSize;
@@ -67,11 +73,13 @@ function setup() {
     console.log("sending to server");
     socket.emit("ruination", degrad);
   }, 1000);
+
+  cnv.mouseWheel(changeVal);
 }
 
 function draw() {
-  // Clear the background
-  val = slider.value();
+  //val = slider.value();
+  val = counter;
   // val = degrad * 3;
   pixelsoff = Math.floor(map(val, 0, 255, 0, rows * cols));
 
@@ -83,7 +91,22 @@ function draw() {
   degrad = peopleNum;
   //console.log(degrad);
 
+  if (peopleNum < 1) {
+    humanActivity = "NONE";
+    myCol = color(0, 204, 0);
+  } else if (peopleNum >= 1 && peopleNum < 3) {
+    humanActivity = "LOW";
+    myCol = color(255, 204, 0);
+  } else if (peopleNum >= 3 && peopleNum < 5) {
+    humanActivity = "MEDIUM";
+    myCol = color(237, 118, 0);
+  } else if (peopleNum >= 5) {
+    humanActivity = "HIGH";
+    myCol = color(255, 0, 0);
+  }
   //sendServer();
+
+  showingText();
 }
 
 function drawGrid(pixelsoff) {
@@ -166,8 +189,30 @@ function rgbArray() {
 // }
 
 function keyPressed() {
-  if (key === "h") {
+  if (key === "v") {
     showSkeleton = !showSkeleton;
     console.log(showSkeleton);
   }
+}
+
+function changeVal(event) {
+  // Change the background color
+  // based on deltaY.
+  if (event.deltaY > 0) {
+    counter += 20;
+    console.log(counter);
+  } else if (event.deltaY < 0) {
+    counter -= 20;
+    console.log(counter);
+  }
+}
+
+function showingText() {
+  fill(255);
+  noStroke();
+  rect(0, 0, myWidth, 80);
+  textSize(40);
+  fill(myCol);
+  noStroke();
+  text(`Human Activity Detected: ${humanActivity}`, 20, 50);
 }
