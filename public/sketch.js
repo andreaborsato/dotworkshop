@@ -32,6 +32,7 @@ function preload() {
 }
 
 function setup() {
+  frameRate(30);
   cnv = createCanvas(myWidth, myHeight);
   cnv.position(windowWidth / 2 - myWidth / 2, windowHeight / 2 - myHeight / 2);
   video = createCapture(VIDEO, { flipped: true });
@@ -70,7 +71,8 @@ function setup() {
 
   //setInterval(sendServer, 1000);
   setInterval(() => {
-    console.log("sending to server");
+    console.log("sending to server: " + degrad);
+
     socket.emit("ruination", degrad);
   }, 1000);
 
@@ -81,7 +83,6 @@ function draw() {
   //val = slider.value();
   val = counter;
   // val = degrad * 3;
-  pixelsoff = Math.floor(map(val, 0, 255, 0, rows * cols));
 
   image(video, 0, 0, myWidth, myHeight);
   // Redraw the grid
@@ -89,6 +90,13 @@ function draw() {
   drawGrid(pixelsoff);
   peopleNum = poses.length;
   degrad = peopleNum;
+  //pixelsoff = Math.floor(map(peopleNum, 0, 10, 0, rows * cols));
+  let k = 7;
+  if (peopleNum == 0) {
+    pixelsoff = 0;
+  } else {
+    pixelsoff = Math.pow(k, peopleNum);
+  }
   //console.log(degrad);
 
   if (peopleNum < 1) {
