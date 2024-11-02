@@ -222,5 +222,5 @@ function showingText() {
   textSize(40);
   fill(myCol);
   noStroke();
-  text(`Human Activity Detected: ${humanActivity}`, 20, 50);
+  text(`Human Activity Detected: ${humanActivity}`, 50, 50);
 }
